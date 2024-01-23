@@ -235,8 +235,8 @@ public class ChessPiece {
         Collection<ChessMove> moves = new ArrayList<>();
         if (pieceColor == ChessGame.TeamColor.WHITE) {
             if (myPosition.getRow() == 7) {
-                for (ChessPiece.PieceType type : new ChessPiece.PieceType[]{ChessPiece.PieceType.QUEEN, ChessPiece.PieceType.ROOK, ChessPiece.PieceType.BISHOP, ChessPiece.PieceType.KNIGHT}) {
-                    moves.add(new ChessMove(myPosition, new ChessPosition(8, myPosition.getColumn()), type));
+                for (ChessPiece.PieceType piece : new ChessPiece.PieceType[]{ChessPiece.PieceType.QUEEN, ChessPiece.PieceType.ROOK, ChessPiece.PieceType.BISHOP, ChessPiece.PieceType.KNIGHT}) {
+                    moves.add(new ChessMove(myPosition, new ChessPosition(8, myPosition.getColumn()), piece));
                 }
             } else {
                 if (myPosition.getRow() == 2) {
@@ -249,18 +249,25 @@ public class ChessPiece {
                 if (board.getPiece(positionOneForward) == null) {
                     moves.add(new ChessMove(myPosition, positionOneForward, null));
                 }
-                for (int colOffset : new int[]{-1, 1}) {
-                    ChessPosition capturePosition = new ChessPosition(myPosition.getRow() + 1, myPosition.getColumn() + colOffset);
-                    if (capturePosition.getColumn() >= 0 && capturePosition.getColumn() < 8 && // Check column boundaries
-                        board.getPiece(capturePosition) != null && board.getPiece(capturePosition).getTeamColor() != pieceColor) {
-                        moves.add(new ChessMove(myPosition, capturePosition, null));
-                    }
+                
+            }
+            for (int colOffset : new int[]{-1, 1}) {
+                ChessPosition capturePosition = new ChessPosition(myPosition.getRow() + 1, myPosition.getColumn() + colOffset);
+                if (capturePosition.getColumn() > 0 && capturePosition.getColumn() <= 8 && 
+                    board.getPiece(capturePosition) != null && board.getPiece(capturePosition).getTeamColor() != pieceColor) {
+                        if (myPosition.getRow() == 7) {
+                            for (ChessPiece.PieceType piece : new ChessPiece.PieceType[]{ChessPiece.PieceType.QUEEN, ChessPiece.PieceType.ROOK, ChessPiece.PieceType.BISHOP, ChessPiece.PieceType.KNIGHT}) {
+                                moves.add(new ChessMove(myPosition, new ChessPosition(8, capturePosition.getColumn()), piece));
+                            }
+                        }else{
+                            moves.add(new ChessMove(myPosition, capturePosition, null));
+                        }
                 }
             }
         } else {
             if (myPosition.getRow() == 2) {
-                for (ChessPiece.PieceType type : new ChessPiece.PieceType[]{ChessPiece.PieceType.QUEEN, ChessPiece.PieceType.ROOK, ChessPiece.PieceType.BISHOP, ChessPiece.PieceType.KNIGHT}) {
-                    moves.add(new ChessMove(myPosition, new ChessPosition(1, myPosition.getColumn()), type));
+                for (ChessPiece.PieceType piece : new ChessPiece.PieceType[]{ChessPiece.PieceType.QUEEN, ChessPiece.PieceType.ROOK, ChessPiece.PieceType.BISHOP, ChessPiece.PieceType.KNIGHT}) {
+                    moves.add(new ChessMove(myPosition, new ChessPosition(1, myPosition.getColumn()), piece));
                 }
             } else {
                 if (myPosition.getRow() == 7) {
@@ -273,10 +280,17 @@ public class ChessPiece {
                 if (board.getPiece(positionOneBackward) == null) {
                     moves.add(new ChessMove(myPosition, positionOneBackward, null));
                 }
-                for (int colOffset : new int[]{-1, 1}) {
-                    ChessPosition capturePosition = new ChessPosition(myPosition.getRow() - 1, myPosition.getColumn() + colOffset);
-                    if (capturePosition.getColumn() >= 0 && capturePosition.getColumn() < 8 && // Check column boundaries
-                        board.getPiece(capturePosition) != null && board.getPiece(capturePosition).getTeamColor() != pieceColor) {
+                
+            }
+            for (int colOffset : new int[]{-1, 1}) {
+                ChessPosition capturePosition = new ChessPosition(myPosition.getRow() - 1, myPosition.getColumn() + colOffset);
+                if (capturePosition.getColumn() > 0 && capturePosition.getColumn() <= 8 && 
+                    board.getPiece(capturePosition) != null && board.getPiece(capturePosition).getTeamColor() != pieceColor) {
+                    if(myPosition.getRow() == 2){
+                        for (ChessPiece.PieceType piece : new ChessPiece.PieceType[]{ChessPiece.PieceType.QUEEN, ChessPiece.PieceType.ROOK, ChessPiece.PieceType.BISHOP, ChessPiece.PieceType.KNIGHT}) {
+                            moves.add(new ChessMove(myPosition, new ChessPosition(1, capturePosition.getColumn()), piece));
+                        }
+                    }else{
                         moves.add(new ChessMove(myPosition, capturePosition, null));
                     }
                 }
