@@ -239,13 +239,13 @@ public class ChessPiece {
                     moves.add(new ChessMove(myPosition, new ChessPosition(8, myPosition.getColumn()), piece));
                 }
             } else {
+                ChessPosition positionOneForward = new ChessPosition(myPosition.getRow() + 1, myPosition.getColumn());
                 if (myPosition.getRow() == 2) {
                     ChessPosition positionTwoForward = new ChessPosition(myPosition.getRow() + 2, myPosition.getColumn());
-                    if (board.getPiece(positionTwoForward) == null) {
+                    if (board.getPiece(positionTwoForward) == null && board.getPiece(positionOneForward) == null){
                         moves.add(new ChessMove(myPosition, positionTwoForward, null));
                     }
                 }
-                ChessPosition positionOneForward = new ChessPosition(myPosition.getRow() + 1, myPosition.getColumn());
                 if (board.getPiece(positionOneForward) == null) {
                     moves.add(new ChessMove(myPosition, positionOneForward, null));
                 }
@@ -270,13 +270,13 @@ public class ChessPiece {
                     moves.add(new ChessMove(myPosition, new ChessPosition(1, myPosition.getColumn()), piece));
                 }
             } else {
+                ChessPosition positionOneBackward = new ChessPosition(myPosition.getRow() - 1, myPosition.getColumn());
                 if (myPosition.getRow() == 7) {
                     ChessPosition positionTwoBackward = new ChessPosition(myPosition.getRow() - 2, myPosition.getColumn());
-                    if (board.getPiece(positionTwoBackward) == null) {
+                    if (board.getPiece(positionTwoBackward) == null && board.getPiece(positionOneBackward) == null){
                         moves.add(new ChessMove(myPosition, positionTwoBackward, null));
                     }
                 }
-                ChessPosition positionOneBackward = new ChessPosition(myPosition.getRow() - 1, myPosition.getColumn());
                 if (board.getPiece(positionOneBackward) == null) {
                     moves.add(new ChessMove(myPosition, positionOneBackward, null));
                 }
