@@ -61,6 +61,69 @@ public class ChessBoard {
         addPiece(new ChessPosition(8, 4), new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.QUEEN));
         addPiece(new ChessPosition(1, 5), new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.KING));
         addPiece(new ChessPosition(8, 5), new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.KING));
-        
+
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 7; i >= 0; i--) {
+            builder.append("|");
+            for (int j = 0; j < 8; j++) {
+                ChessPiece piece = squares[i][j];
+                if (piece == null) {
+                    builder.append(" |");
+                } else {
+                    builder.append(piece.getPieceType()).append("|");
+                }
+            }
+            builder.append("\n");
+        }
+        return builder.toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof ChessBoard)) {
+            return false;
+        }
+        ChessBoard other = (ChessBoard) obj;
+        for (int i = 0; i < squares.length; i++) {
+            ChessPiece[] row = squares[i];
+            ChessPiece[] otherRow = other.squares[i];
+            for (int j = 0; j < row.length; j++) {
+                ChessPiece piece = row[j];
+                ChessPiece otherPiece = otherRow[j];
+                if (piece == null && otherPiece != null) {
+                    return false;
+                }
+                if (piece != null && otherPiece == null) {
+                    return false;
+                }
+                if (piece != null && otherPiece != null) {
+                    if (!piece.equals(otherPiece)) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        int multiplier = 1;
+        for (ChessPiece[] row : squares) {
+            for (ChessPiece piece : row) {
+                if (piece != null) {
+                    hash += piece.hashCode() * multiplier;
+                }
+                multiplier *= 31;
+            }
+        }
+        return hash;
     }
 }
