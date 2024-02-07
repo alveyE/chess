@@ -52,9 +52,21 @@ public class ChessGame {
      * startPosition
      */
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
-        //gets piece at position and returns valid moves
+        List<ChessMove> validMoves = new ArrayList<>();
+
         ChessPiece piece = board.getPiece(startPosition);
-        return piece.pieceMoves(board, startPosition);
+        Collection<ChessMove> potentialMoves = piece.pieceMoves(board, startPosition);
+                    for (ChessMove move : potentialMoves) {
+                        ChessBoard boardCopy = new ChessBoard(board);
+                        ChessGame gameCopy = new ChessGame();
+                        gameCopy.setBoard(boardCopy);
+                        boardCopy.movePiece(move);
+                        if (!gameCopy.isInCheck(piece.getTeamColor())) {
+                            validMoves.add(move);
+                        }
+                    }
+
+        return validMoves;
     }
 
     /**
@@ -161,7 +173,11 @@ public class ChessGame {
      * @return True if the specified team is in stalemate, otherwise false
      */
     public boolean isInStalemate(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
+        if (!isInCheck(teamColor)) {
+            Collection<ChessMove> validMoves = validMovesForTeam(teamColor);
+            return validMoves.isEmpty();
+        }
+        return false;
     }
 
     /**
