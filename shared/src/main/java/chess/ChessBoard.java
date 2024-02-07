@@ -14,6 +14,14 @@ public class ChessBoard {
         
     }
 
+    public ChessBoard(ChessBoard board) {
+        for (int i = 0; i < squares.length; i++) {
+            for (int j = 0; j < squares[i].length; j++) {
+                squares[i][j] = board.squares[i][j];
+            }
+        }
+    }
+
     /**
      * Adds a chess piece to the chessboard
      *
