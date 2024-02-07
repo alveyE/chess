@@ -70,6 +70,18 @@ public class ChessBoard {
         addPiece(move.getStartPosition(), null);
     }
 
+    public ChessPosition kingPosition(ChessGame.TeamColor team) {
+        for (int i = 0; i < squares.length; i++) {
+            for (int j = 0; j < squares[i].length; j++) {
+                ChessPiece piece = squares[i][j];
+                if (piece != null && piece.getPieceType() == ChessPiece.PieceType.KING && piece.getTeam() == team) {
+                    return new ChessPosition(i + 1, j + 1);
+                }
+            }
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
