@@ -64,6 +64,12 @@ public class ChessBoard {
 
     }
 
+    public void movePiece(ChessMove move) {
+        ChessPiece piece = getPiece(move.getStartPosition());
+        addPiece(move.getEndPosition(), piece);
+        addPiece(move.getStartPosition(), null);
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
