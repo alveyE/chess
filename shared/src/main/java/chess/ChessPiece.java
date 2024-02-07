@@ -104,9 +104,7 @@ public class ChessPiece {
             if (board.getPiece(position) == null) {
                 moves.add(new ChessMove(myPosition, position, null));
             } else if (board.getPiece(position).getTeamColor() != pieceColor) {
-                if (board.getPiece(position).getPieceType() == PieceType.KING) {
-                    break;
-                }
+                
                 moves.add(new ChessMove(myPosition, position, null));
                 break;
             } else {
@@ -119,9 +117,7 @@ public class ChessPiece {
             if (board.getPiece(position) == null) {
                 moves.add(new ChessMove(myPosition, position, null));
             } else if (board.getPiece(position).getTeamColor() != pieceColor) {
-                if (board.getPiece(position).getPieceType() == PieceType.KING) {
-                    break;
-                }
+               
                 moves.add(new ChessMove(myPosition, position, null));
                 break;
             } else {
@@ -133,9 +129,7 @@ public class ChessPiece {
             if (board.getPiece(position) == null) {
                 moves.add(new ChessMove(myPosition, position, null));
             } else if (board.getPiece(position).getTeamColor() != pieceColor) {
-                if (board.getPiece(position).getPieceType() == PieceType.KING) {
-                    break;
-                }
+                
                 moves.add(new ChessMove(myPosition, position, null));
                 break;
             } else {
@@ -147,9 +141,7 @@ public class ChessPiece {
             if (board.getPiece(position) == null) {
                 moves.add(new ChessMove(myPosition, position, null));
             } else if (board.getPiece(position).getTeamColor() != pieceColor) {
-                if (board.getPiece(position).getPieceType() == PieceType.KING) {
-                    break;
-                }
+                
                 moves.add(new ChessMove(myPosition, position, null));
                 break;
             } else {
