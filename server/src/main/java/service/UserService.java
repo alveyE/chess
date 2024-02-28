@@ -17,13 +17,13 @@ public class UserService {
         String password = user.password();
         String email = user.email();
         if (username == null || password == null || email == null) {
-            throw new ResponseException(400, "Username, password, and email are required");
+            throw new ResponseException(400, "{\"message\": \"Error: Username, password, and email are required\"}");
         }
         if(userDAO.getUser(username) != null) {
-            throw new ResponseException(400, "Username is already taken");
+            throw new ResponseException(400, "{\"message\": \"Error: Username is already taken\"}");
         }
         if(userDAO.getUserByEmail(email) != null) {
-            throw new ResponseException(400, "Email is already taken");
+            throw new ResponseException(403, "{\"message\": \"Error: Email is already taken\"}");
         }
         userDAO.addUser(user);
         AuthData auth = new AuthData(UUID.randomUUID().toString(), password);
@@ -34,12 +34,12 @@ public class UserService {
         String username = user.username();
         String password = user.password();
         if (username == null || password == null) {
-            throw new ResponseException(400, "Username and password are required");
+            throw new ResponseException(401, "{\"message\": \"Error: Username and password are required\"}");
         }
         //get password from user
         UserData user1 = userDAO.getUser(username);
         if(user1 == null || !user1.password().equals(password)) {
-            throw new ResponseException(400, "Username or password is incorrect");
+            throw new ResponseException(401, "{\"message\": \"Error: Username or password is incorrect\"}");
         }
         AuthData auth = new AuthData(UUID.randomUUID().toString(), password);
         authDAO.addAuth(auth);
@@ -49,10 +49,10 @@ public class UserService {
     public void logout(UserData user) throws DataAccessException, ResponseException{
         String username = user.username();
         if (username == null) {
-            throw new ResponseException(400, "Username is required");
+            throw new ResponseException(401, "{\"message\": \"Error: unauthorized\"}");
         }
         if(userDAO.getUser(username) == null) {
-            throw new ResponseException(400, "Username does not exist");
+            throw new ResponseException(401, "{\"message\": \"Error: unauthorized\"}");
         }
         authDAO.deleteAuth();
     }

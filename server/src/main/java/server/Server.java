@@ -3,6 +3,7 @@ package server;
 
 import com.google.gson.Gson;
 
+import dataAccess.DataAccessException;
 import model.AuthData;
 import model.GameData;
 import model.JoinGameRequest;
@@ -83,6 +84,7 @@ public class Server {
     }
 
     private Object login(Request req, Response res) {
+
         try{
             UserData user = new Gson().fromJson(req.body(), UserData.class);
             AuthData auth = userService.login(user);
@@ -91,13 +93,12 @@ public class Server {
             res.body(new Gson().toJson(auth));
             return new Gson().toJson(auth);
         }catch(ResponseException e){
-            res.type("application/json");
             res.status(e.StatusCode());
             return e.getMessage();
-        } catch (Exception e) {
+        } catch (DataAccessException e) {
             res.type("application/json");
             res.status(500);
-            return "Internal server error";
+            return "{\"message\": \"Internal server error\"}";
         }
     }
 
@@ -107,7 +108,7 @@ public class Server {
             userService.logout(user);
             res.type("application/json");
             res.status(200);
-            return "OK";
+            return "";
         }catch(ResponseException e){
             res.type("application/json");
             res.status(e.StatusCode());
@@ -115,7 +116,7 @@ public class Server {
         } catch (Exception e) {
             res.type("application/json");
             res.status(500);
-            return "Internal server error";
+            return e.getMessage();
         }
     }
 
@@ -134,7 +135,7 @@ public class Server {
         } catch (Exception e) {
             res.type("application/json");
             res.status(500);
-            return "Internal server error";
+            return e.getMessage();
         }
     }
 
@@ -151,7 +152,7 @@ public class Server {
         } catch (Exception e) {
             res.type("application/json");
             res.status(500);
-            return "Internal server error";
+            return e.getMessage();
         }
     }
 
@@ -162,7 +163,7 @@ public class Server {
             gameService.joinGame(game.gameID(), authToken, game.color());
             res.type("application/json");
             res.status(200);
-            return "OK";
+            return "";
         }catch(ResponseException e){
             res.type("application/json");
             res.status(e.StatusCode());
@@ -170,7 +171,7 @@ public class Server {
         } catch (Exception e) {
             res.type("application/json");
             res.status(500);
-            return "Internal server error";
+            return e.getMessage();
         }
     }
 
