@@ -16,7 +16,32 @@ public class MemoryUserDAO implements UserDAO {
     public void deleteUsers() {
         users = new ArrayList<UserData>();
     }    
+
+    @Override
+    public UserData getUser(String username) {
+        for (UserData user : users) {
+            if (user.username().equals(username)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public UserData getUserByEmail(String email) {
+        for (UserData user : users) {
+            if (user.email().equals(email)) {
+                return user;
+            }
+        }
+        return null;
+    }
    
+
+    @Override
+    public void addUser(UserData user) {
+        users.add(user);
+    }
 
 
 }

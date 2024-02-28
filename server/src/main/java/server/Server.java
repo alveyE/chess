@@ -10,9 +10,9 @@ public class Server {
     private final UserService userService;
     private final GameService gameService;
 
-    public Server(UserService userService, GameService gameService) {
-        this.userService = userService;
-        this.gameService = gameService;
+    public Server() {
+        this.userService = new UserService();
+        this.gameService = new GameService();
     }
 
     public int run(int desiredPort) {

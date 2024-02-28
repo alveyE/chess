@@ -19,6 +19,21 @@ public class MemoryAuthDAO implements AuthDAO {
         }
    
 
+        @Override
+        public void addAuth(AuthData authData) {
+            userCredentials.add(authData);
+        }
+
+        @Override
+        public AuthData getAuth(String username) {
+            for (AuthData auth : userCredentials) {
+                if (auth.username().equals(username)) {
+                    return auth;
+                }
+            }
+            return null;
+        }
+
 
 }
     
