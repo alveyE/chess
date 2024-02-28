@@ -1,5 +1,6 @@
 package service;
 
+import dataAccess.DataAccessException;
 import dataAccess.MemoryAuthDAO;
 import dataAccess.MemoryUserDAO;
 import model.AuthData;
@@ -15,7 +16,7 @@ public class UserService {
     public void logout(UserData user) {}
 
 
-    public void clear(){
+    public void clear() throws DataAccessException{
         authDAO.deleteAuth();
         userDAO.deleteUsers();
     }
