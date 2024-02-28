@@ -4,6 +4,8 @@ import dataAccess.DataAccessException;
 import dataAccess.MemoryGameDAO;
 import model.GameData;
 
+import java.util.ArrayList;
+
 public class GameService {
 
     private final static MemoryGameDAO gameDAO = new MemoryGameDAO();
@@ -12,20 +14,63 @@ public class GameService {
         gameDAO.deleteGames();
     }
 
-    // public int createGame(GameData game, String authToken) throws DataAccessException, ResponseException{
-    //     if(game == null || authToken == null){
-    //         throw new ResponseException(400, "Bad Request");
-    //     }
-    //     if(!UserService.validateAuth(authToken)){
-    //         throw new ResponseException(400, "Unauthorized");
-    //     }
-    //     if(gameDAO.getGame(game.gameID()) != null){
-    //         throw new ResponseException(400, "Game already exists");
-    //     }
+    public int createGame(GameData game, String authToken) throws DataAccessException, ResponseException{
+        if(game == null || authToken == null){
+            throw new ResponseException(400, "Bad Request");
+        }
+        if(!UserService.validateAuth(authToken)){
+            throw new ResponseException(400, "Unauthorized");
+        }
+        if(gameDAO.getGame(game.gameID()) != null){
+            throw new ResponseException(400, "Game already exists");
+        }
 
-    //     return gameDAO.addGame(game);
+        return gameDAO.createGame(game.gameName());
 
-    // }
+    }
+
+    public void deleteGame(int gameID, String authToken) throws DataAccessException, ResponseException{
+        if(authToken == null){
+            throw new ResponseException(400, "Bad Request");
+        }
+        if(!UserService.validateAuth(authToken)){
+            throw new ResponseException(400, "Unauthorized");
+        }
+        if(gameDAO.getGame(gameID) == null){
+            throw new ResponseException(400, "Game does not exist");
+        }
+        gameDAO.deleteGame(gameID);
+    }
+
+    public ArrayList<GameData> listGames(String authToken) throws DataAccessException, ResponseException{
+        if(authToken == null){
+            throw new ResponseException(400, "Bad Request");
+        }
+        if(!UserService.validateAuth(authToken)){
+            throw new ResponseException(400, "Unauthorized");
+        }
+        return gameDAO.getGames();
+    }
+
+    public void joinGame(int gameID, String authToken, String color) throws DataAccessException, ResponseException{
+        if(authToken == null){
+            throw new ResponseException(400, "Bad Request");
+        }
+        if(!UserService.validateAuth(authToken)){
+            throw new ResponseException(400, "Unauthorized");
+        }
+        if(gameDAO.getGame(gameID) == null){
+            throw new ResponseException(400, "Game does not exist");
+        }
+        if(color == null){
+            throw new ResponseException(400, "Color is required");
+        }
+        if(!color.equals("white") && !color.equals("black")){
+            throw new ResponseException(400, "Invalid color");
+        }
+        gameDAO.joinGame(gameID, UserService.getUsername(authToken), color);   
+    }
+    
 
     
 }
