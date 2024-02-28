@@ -61,7 +61,8 @@ public class GameService {
             throw new ResponseException(400, "{\"message\": \"Error: Game does not exist\"}");
         }
         if(color == null){
-            throw new ResponseException(400, "{\"message\": \"Error: Bad Request\"}");
+            gameDAO.joinGame(gameID, UserService.getUsername(authToken), "SPECTATOR");
+            return;
         }
         if(!color.equals("WHITE") && !color.equals("BLACK")){
             throw new ResponseException(403, "{\"message\": \"Error: Invalid Color\"}");
