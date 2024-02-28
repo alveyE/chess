@@ -2,9 +2,8 @@ package passoffTests.serviceTests;
 
 import service.GameService;
 import service.UserService;
-import org.junit.jupiter.*;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.*;
+
 
 import dataAccess.DataAccessException;
 
@@ -23,9 +22,9 @@ public class GameServiceTest {
         userService.clear();
     }
 
-    
 
 
 
-    
+
+
 }

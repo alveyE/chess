@@ -1,13 +1,12 @@
 package passoffTests.serviceTests;
+import org.junit.jupiter.api.*;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import dataAccess.DataAccessException;
 import service.UserService;
 
 public class UserServiceTest {
-    
+
     private UserService userService;
 
     @BeforeEach
