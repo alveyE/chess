@@ -1,2 +1,5 @@
-package dataAccess;public interface GameDAO {
+package dataAccess;
+
+public interface GameDAO {
+    public void deleteGames();
 }

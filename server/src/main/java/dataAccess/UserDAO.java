@@ -1,2 +1,6 @@
-package dataAccess;public interface UserDAO {
+package dataAccess;
+
+public interface UserDAO {
+    public void deleteUsers();
+
 }
