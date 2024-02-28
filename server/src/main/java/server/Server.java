@@ -1,6 +1,11 @@
 package server;
 
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.google.gson.Gson;
 
 import dataAccess.DataAccessException;
@@ -104,8 +109,8 @@ public class Server {
 
     private Object logout(Request req, Response res) {
         try{
-            UserData user = new Gson().fromJson(req.body(), UserData.class);
-            userService.logout(user);
+            String authToken = req.headers("Authorization");
+            userService.logout(authToken);
             res.type("application/json");
             res.status(200);
             return "";
@@ -127,7 +132,7 @@ public class Server {
             int gameID = gameService.createGame(game, authToken);
             res.type("application/json");
             res.status(200);
-            return gameID;
+            return new Gson().toJson(Collections.singletonMap("gameID", gameID));        
         }catch(ResponseException e){
             res.type("application/json");
             res.status(e.StatusCode());
@@ -144,8 +149,10 @@ public class Server {
             String authToken = req.headers("Authorization");
             res.type("application/json");
             res.status(200);
-            return new Gson().toJson(gameService.listGames(authToken));
-        }catch(ResponseException e){
+            List<GameData> games = gameService.listGames(authToken);
+            Map<String, Object> response = new HashMap<>();
+            response.put("games", games);
+            return new Gson().toJson(response);        }catch(ResponseException e){
             res.type("application/json");
             res.status(e.StatusCode());
             return e.getMessage();
@@ -160,7 +167,7 @@ public class Server {
         try{
             String authToken = req.headers("Authorization");
             JoinGameRequest game = new Gson().fromJson(req.body(), JoinGameRequest.class);
-            gameService.joinGame(game.gameID(), authToken, game.color());
+            gameService.joinGame(game.gameID(), authToken, game.playerColor());
             res.type("application/json");
             res.status(200);
             return "";

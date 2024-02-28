@@ -20,13 +20,13 @@ public class UserService {
             throw new ResponseException(400, "{\"message\": \"Error: Username, password, and email are required\"}");
         }
         if(userDAO.getUser(username) != null) {
-            throw new ResponseException(400, "{\"message\": \"Error: Username is already taken\"}");
+            throw new ResponseException(403, "{\"message\": \"Error: Username is already taken\"}");
         }
         if(userDAO.getUserByEmail(email) != null) {
             throw new ResponseException(403, "{\"message\": \"Error: Email is already taken\"}");
         }
         userDAO.addUser(user);
-        AuthData auth = new AuthData(UUID.randomUUID().toString(), password);
+        AuthData auth = new AuthData(UUID.randomUUID().toString(), username);
         authDAO.addAuth(auth);
         return auth;
     }
@@ -41,20 +41,16 @@ public class UserService {
         if(user1 == null || !user1.password().equals(password)) {
             throw new ResponseException(401, "{\"message\": \"Error: Username or password is incorrect\"}");
         }
-        AuthData auth = new AuthData(UUID.randomUUID().toString(), password);
+        AuthData auth = new AuthData(UUID.randomUUID().toString(), username);
         authDAO.addAuth(auth);
         return auth;
      }
 
-    public void logout(UserData user) throws DataAccessException, ResponseException{
-        String username = user.username();
-        if (username == null) {
-            throw new ResponseException(401, "{\"message\": \"Error: unauthorized\"}");
+    public void logout(String authToken) throws DataAccessException, ResponseException{
+        if(authToken == null || authDAO.getAuth(authToken) == null){
+            throw new ResponseException(401, "{\"message\": \"Error: Unauthorized\"}");
         }
-        if(userDAO.getUser(username) == null) {
-            throw new ResponseException(401, "{\"message\": \"Error: unauthorized\"}");
-        }
-        authDAO.deleteAuth();
+        authDAO.deleteAuth(authToken);
     }
 
 

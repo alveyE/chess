@@ -58,13 +58,20 @@ public class GameService {
             throw new ResponseException(401, "{\"message\": \"Error: unauthorized\"}");
         }
         if(gameDAO.getGame(gameID) == null){
-            throw new ResponseException(401, "{\"message\": \"Error: Game does not exist\"}");
+            throw new ResponseException(400, "{\"message\": \"Error: Game does not exist\"}");
         }
         if(color == null){
             throw new ResponseException(400, "{\"message\": \"Error: Bad Request\"}");
         }
-        if(!color.equals("white") && !color.equals("black")){
-            throw new ResponseException(400, "{\"message\": \"Error: Bad Request\"}");
+        if(!color.equals("WHITE") && !color.equals("BLACK")){
+            throw new ResponseException(403, "{\"message\": \"Error: Invalid Color\"}");
+        }
+        GameData game = gameDAO.getGame(gameID);
+        if (game != null) {
+            if ((color.equals("WHITE") && game.whiteUsername() != null) ||
+                (color.equals("BLACK") && game.blackUsername() != null)) {
+                throw new ResponseException(403, "{\"message\": \"Error: Color already taken\"}");
+            }
         }
         gameDAO.joinGame(gameID, UserService.getUsername(authToken), color);   
     }
