@@ -1,6 +1,8 @@
 package service;
 
 import dataAccess.DataAccessException;
+import dataAccess.DatabaseAuthDAO;
+import dataAccess.DatabaseUserDAO;
 import dataAccess.MemoryAuthDAO;
 import dataAccess.MemoryUserDAO;
 import model.AuthData;
@@ -10,8 +12,13 @@ import java.util.UUID;
 public class UserService {
 
 
-        private final static MemoryAuthDAO authDAO = new MemoryAuthDAO();
-        private final static MemoryUserDAO userDAO = new MemoryUserDAO();
+        // private final static MemoryAuthDAO authDAO = new MemoryAuthDAO();
+        // private final static MemoryUserDAO userDAO = new MemoryUserDAO();
+
+        private final static DatabaseAuthDAO authDAO = new DatabaseAuthDAO();
+        private final static DatabaseUserDAO userDAO = new DatabaseUserDAO();
+
+
     public AuthData register(UserData user) throws DataAccessException, ResponseException{
         String username = user.username();
         String password = user.password();
