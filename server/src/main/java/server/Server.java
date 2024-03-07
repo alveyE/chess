@@ -9,8 +9,6 @@ import java.util.Map;
 import com.google.gson.Gson;
 
 import dataAccess.DataAccessException;
-import dataAccess.DatabaseManager;
-import dataAccess.DatabaseUserDAO;
 import model.AuthData;
 import model.GameData;
 import model.JoinGameRequest;
