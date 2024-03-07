@@ -72,8 +72,8 @@ public class GameService {
         }
         GameData game = gameDAO.getGame(gameID);
         if (game != null) {
-            if ((color.equals("WHITE") && game.whiteUsername() != null) ||
-                (color.equals("BLACK") && game.blackUsername() != null)) {
+            if ((game.whiteUsername() != null && color.equals("WHITE")) ||
+                (game.blackUsername() != null && color.equals("BLACK"))) {
                 throw new ResponseException(403, "{\"message\": \"Error: Color already taken\"}");
             }
         }
