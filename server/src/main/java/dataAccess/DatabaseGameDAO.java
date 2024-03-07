@@ -4,6 +4,7 @@ import model.GameData;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
+import java.sql.Statement;
 
 import chess.ChessGame;
 
@@ -42,13 +43,18 @@ public class DatabaseGameDAO implements GameDAO{
         try {
             var statement = "INSERT INTO games (whiteUsername, blackUsername, gameName, gameData) VALUES (?, ?, ?, ?)";
             var conn = DatabaseManager.getConnection();
-            try (var preparedStatement = conn.prepareStatement(statement)) {
-                preparedStatement.setString(1, "");
-                preparedStatement.setString(2, "");
+            try (var preparedStatement = conn.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS)) {
+                preparedStatement.setString(1, null);
+                preparedStatement.setString(2, null);
                 preparedStatement.setString(3, gameName);
-                preparedStatement.setString(4, "");
+                preparedStatement.setString(4, null);
                 preparedStatement.executeUpdate();
-               
+                try (var results = preparedStatement.getGeneratedKeys()) {
+                    if (results.next()) {
+                        
+                        return results.getInt(1);
+                    }
+                }
             }
         }catch (Exception e){
             System.out.println(e);
