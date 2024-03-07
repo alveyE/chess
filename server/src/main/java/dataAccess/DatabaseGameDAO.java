@@ -14,7 +14,7 @@ public class DatabaseGameDAO implements GameDAO{
     public DatabaseGameDAO(){
         try {
             DatabaseManager.createDatabase();
-            var statement = "CREATE TABLE IF NOT EXISTS games (gameID INTEGER PRIMARY KEY, whiteUsername VARCHAR(255), blackUsername VARCHAR(255), gameName VARCHAR(255), gameData VARCHAR(255))";
+            var statement = "CREATE TABLE IF NOT EXISTS games (gameID INTEGER PRIMARY KEY AUTO_INCREMENT, whiteUsername VARCHAR(255), blackUsername VARCHAR(255), gameName VARCHAR(255), gameData VARCHAR(255))";
             var conn = DatabaseManager.getConnection();
             try (var preparedStatement = conn.prepareStatement(statement)) {
                 preparedStatement.executeUpdate();
@@ -40,13 +40,15 @@ public class DatabaseGameDAO implements GameDAO{
     @Override
     public int createGame(String gameName){
         try {
-            var statement = "INSERT INTO games (whiteUsername, blackUsername, gameName, gameData) VALUES (?, ?, ?)";
+            var statement = "INSERT INTO games (whiteUsername, blackUsername, gameName, gameData) VALUES (?, ?, ?, ?)";
             var conn = DatabaseManager.getConnection();
             try (var preparedStatement = conn.prepareStatement(statement)) {
-                preparedStatement.setString(1, gameName);
-                preparedStatement.setString(2, gameName);
-                preparedStatement.setString(3, "");
+                preparedStatement.setString(1, "");
+                preparedStatement.setString(2, "");
+                preparedStatement.setString(3, gameName);
+                preparedStatement.setString(4, "");
                 preparedStatement.executeUpdate();
+               
             }
         }catch (Exception e){
             System.out.println(e);
