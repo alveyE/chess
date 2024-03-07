@@ -1,6 +1,7 @@
 package service;
 
 import dataAccess.DataAccessException;
+import dataAccess.DatabaseGameDAO;
 import dataAccess.MemoryGameDAO;
 import model.GameData;
 
@@ -8,7 +9,9 @@ import java.util.ArrayList;
 
 public class GameService {
 
-    private final static MemoryGameDAO gameDAO = new MemoryGameDAO();
+   // private final static MemoryGameDAO gameDAO = new MemoryGameDAO();
+
+    private final DatabaseGameDAO gameDAO = new DatabaseGameDAO();
 
     public void clear() throws DataAccessException{
         gameDAO.deleteGames();
