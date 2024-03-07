@@ -7,7 +7,7 @@ public class DatabaseAuthDAO implements AuthDAO{
     public DatabaseAuthDAO(){
         try {
             DatabaseManager.createDatabase();
-            var statement = "CREATE TABLE IF NOT EXISTS auth (authToken TEXT PRIMARY KEY, username TEXT)";
+            var statement = "CREATE TABLE IF NOT EXISTS auth (authToken VARCHAR(255) PRIMARY KEY, username VARCHAR(255))";
             var conn = DatabaseManager.getConnection();
             try (var preparedStatement = conn.prepareStatement(statement)) {
                 preparedStatement.executeUpdate();

@@ -14,7 +14,7 @@ public class DatabaseGameDAO implements GameDAO{
     public DatabaseGameDAO(){
         try {
             DatabaseManager.createDatabase();
-            var statement = "CREATE TABLE IF NOT EXISTS games (gameID INTEGER PRIMARY KEY, whiteUsername TEXT, blackUsername TEXT, gameName TEXT, gameData TEXT)";
+            var statement = "CREATE TABLE IF NOT EXISTS games (gameID INTEGER PRIMARY KEY, whiteUsername VARCHAR(255), blackUsername VARCHAR(255), gameName VARCHAR(255), gameData VARCHAR(255))";
             var conn = DatabaseManager.getConnection();
             try (var preparedStatement = conn.prepareStatement(statement)) {
                 preparedStatement.executeUpdate();
