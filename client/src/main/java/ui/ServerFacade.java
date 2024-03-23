@@ -25,7 +25,45 @@ public class ServerFacade {
     }
 
 
-   
+    public AuthData register(String username, String password, String email) {
+        String path = "/user";
+        UserData user = new UserData(username, password, email);
+        return sendRequest("POST", path, user, null, AuthData.class);
+    }
+
+    public AuthData login(String username, String password) {
+        String path = "/auth";
+        var req = Map.of("username", username, "password", password);
+        return sendRequest("POST", path, req, null, AuthData.class);
+    }
+
+    public void logout(String token) {
+        String path = "/auth";
+        sendRequest("DELETE", path, null, token, null);
+    }
+
+    public void clear() {
+        String path = "/db";
+        sendRequest("DELETE", path, null, null, null);
+    }
+
+    public GameData createGame(String token, String gameName) {
+        String path = "/game";
+        GameData game = new GameData(0, null, null, gameName, new ChessGame());
+        return sendRequest("POST", path, game, token, GameData.class);
+    }
+
+    public List listGames(String token) {
+        String path = "/game";
+        return sendRequest("GET", path, null, token, List.class);
+    }
+
+   public void joinGame(String token, JoinGameRequest req) {
+        String path = "/game/";
+        sendRequest("PUT", path, req, token, null);
+    }
+
+
     private <T> T sendRequest(String method, String path, Object req, String header, Class<T> format) throws RuntimeException {
         try {
             URI uri = new URI(url + path);
