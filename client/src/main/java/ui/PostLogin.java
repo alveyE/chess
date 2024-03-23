@@ -45,6 +45,9 @@ public class PostLogin {
                 JoinGameRequest re = new JoinGameRequest(Integer.parseInt(args[0]), "");
                 serverFacade.joinGame(cmd, re);
                 return "Observing game!";
+            case "logout":
+                serverFacade.logout(token);
+                return "Logged out!";            
             case "quit":
                 return "Goodbye!";
             default:
