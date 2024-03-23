@@ -1,5 +1,7 @@
 package ui;
 
+import model.JoinGameRequest;
+
 public class PostLogin {
 
     private final String url;
@@ -29,6 +31,20 @@ public class PostLogin {
                     return "Usage: list";
                 }
                 return serverFacade.listGames(token).toString();
+            case "join":
+                if (args.length != 1) {
+                    return "Usage: join <gameId>";
+                }
+                JoinGameRequest req = new JoinGameRequest(Integer.parseInt(args[0]), args[1]);
+                serverFacade.joinGame(token, req);
+                return "Joined game!";
+            case "observe":
+                if (args.length != 1) {
+                    return "Usage: observe <gameId>";
+                }
+                JoinGameRequest re = new JoinGameRequest(Integer.parseInt(args[0]), "");
+                serverFacade.joinGame(cmd, re);
+                return "Observing game!";
             case "quit":
                 return "Goodbye!";
             default:
