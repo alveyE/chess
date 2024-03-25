@@ -25,40 +25,40 @@ public class ServerFacade {
     }
 
 
-    public AuthData register(String username, String password, String email) {
+    public AuthData register(String username, String password, String email) throws RuntimeException{
         String path = "/user";
         UserData user = new UserData(username, password, email);
         return sendRequest("POST", path, user, null, AuthData.class);
     }
 
-    public AuthData login(String username, String password) {
+    public AuthData login(String username, String password) throws RuntimeException{
         String path = "/auth";
         var req = Map.of("username", username, "password", password);
         return sendRequest("POST", path, req, null, AuthData.class);
     }
 
-    public void logout(String token) {
+    public void logout(String token) throws RuntimeException{
         String path = "/auth";
         sendRequest("DELETE", path, null, token, null);
     }
 
-    public void clear() {
+    public void clear() throws RuntimeException{
         String path = "/db";
         sendRequest("DELETE", path, null, null, null);
     }
 
-    public GameData createGame(String token, String gameName) {
+    public GameData createGame(String token, String gameName) throws RuntimeException{
         String path = "/game";
         GameData game = new GameData(0, null, null, gameName, new ChessGame());
         return sendRequest("POST", path, game, token, GameData.class);
     }
 
-    public List listGames(String token) {
+    public List listGames(String token) throws RuntimeException{
         String path = "/game";
         return sendRequest("GET", path, null, token, List.class);
     }
 
-   public void joinGame(String token, JoinGameRequest req) {
+   public void joinGame(String token, JoinGameRequest req) throws RuntimeException{
         String path = "/game/";
         sendRequest("PUT", path, req, token, null);
     }
