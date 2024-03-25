@@ -32,13 +32,14 @@ public class ServerFacade {
     }
 
     public AuthData login(String username, String password) throws RuntimeException{
-        String path = "/auth";
+        System.out.println(username + " " + password);
+        String path = "/session";
         var req = Map.of("username", username, "password", password);
         return sendRequest("POST", path, req, null, AuthData.class);
     }
 
     public void logout(String token) throws RuntimeException{
-        String path = "/auth";
+        String path = "/session";
         sendRequest("DELETE", path, null, token, null);
     }
 

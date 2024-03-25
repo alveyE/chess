@@ -18,6 +18,7 @@ public class PreLogin {
         for (int i = 1; i < commandParts.length; i++) {
             args[i - 1] = commandParts[i];
         }
+        try{
         switch (cmd) {
             case "register":
                 if (args.length != 3) {
@@ -38,6 +39,9 @@ public class PreLogin {
             default:
                 return "register <username> <password> <email> - to create an account\nlogin <username> <password> - to play chess\nquit - playing chess\nhelp - with possible commands";
         }
+    }catch(RuntimeException e){
+        return "Error: " + e.getMessage();
+    }
 
 
         
