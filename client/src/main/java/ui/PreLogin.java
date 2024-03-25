@@ -28,7 +28,11 @@ public class PreLogin {
                 if (args.length != 2) {
                     return "Usage: login <username> <password>";
                 }
-                return serverFacade.login(args[0], args[1]).toString();
+                if(serverFacade.login(args[0], args[1]) == null){
+                    return "Invalid username or password";
+                }
+                else return "Successfully logged in!";
+                
             case "quit":
                 return "Goodbye!";
             default:
