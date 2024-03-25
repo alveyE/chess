@@ -175,6 +175,7 @@ public class Server {
         }catch(ResponseException e){
             res.type("application/json");
             res.status(e.StatusCode());
+            System.out.println(e.getMessage());
             return e.getMessage();
         } catch (Exception e) {
             res.type("application/json");

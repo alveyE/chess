@@ -40,7 +40,8 @@ public class UserService {
      public AuthData login(UserData user) throws DataAccessException, ResponseException{
         String username = user.username();
         String password = user.password();
-        if (username == null || password == null) {
+
+         if (username == null || password == null) {
             throw new ResponseException(401, "{\"message\": \"Error: Username and password are required\"}");
         }
         //get password from user

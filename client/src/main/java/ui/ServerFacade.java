@@ -1,5 +1,7 @@
 package ui;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
@@ -32,7 +34,6 @@ public class ServerFacade {
     }
 
     public AuthData login(String username, String password) throws RuntimeException{
-        System.out.println(username + " " + password);
         String path = "/session";
         var req = Map.of("username", username, "password", password);
         return sendRequest("POST", path, req, null, AuthData.class);
@@ -60,7 +61,7 @@ public class ServerFacade {
     }
 
    public void joinGame(String token, JoinGameRequest req) throws RuntimeException{
-        String path = "/game/";
+        String path = "/game";
         sendRequest("PUT", path, req, token, null);
     }
 
@@ -76,6 +77,10 @@ public class ServerFacade {
             writeRequestBody(req, http);
             http.connect();
             throwFailure(http);
+            if(format == null) return null;
+
+ 
+
             return readBody(http, format);
         } catch (Exception ex) {
             throw new RuntimeException(ex);

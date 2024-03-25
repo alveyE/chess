@@ -63,21 +63,24 @@ public class GameService {
         if(gameDAO.getGame(gameID) == null){
             throw new ResponseException(400, "{\"message\": \"Error: Game does not exist\"}");
         }
-        if(color == null){
+        if(color == null || color.equals("")){
             gameDAO.joinGame(gameID, UserService.getUsername(authToken), "SPECTATOR");
             return;
         }
-        if(!color.equals("WHITE") && !color.equals("BLACK")){
+     
+        if(color.toLowerCase().equals("white") || color.toLowerCase().equals("black") || color.toLowerCase().equals("spectator")){
+            GameData game = gameDAO.getGame(gameID);
+            if (game != null) {
+                if ((game.whiteUsername() != null && color.toUpperCase().equals("WHITE")) ||
+                    (game.blackUsername() != null && color.toUpperCase().equals("BLACK"))) {
+                    throw new ResponseException(403, "{\"message\": \"Error: Color already taken\"}");
+                }
+            }
+            gameDAO.joinGame(gameID, UserService.getUsername(authToken), color);   
+        }else{
             throw new ResponseException(403, "{\"message\": \"Error: Invalid Color\"}");
         }
-        GameData game = gameDAO.getGame(gameID);
-        if (game != null) {
-            if ((game.whiteUsername() != null && color.equals("WHITE")) ||
-                (game.blackUsername() != null && color.equals("BLACK"))) {
-                throw new ResponseException(403, "{\"message\": \"Error: Color already taken\"}");
-            }
-        }
-        gameDAO.joinGame(gameID, UserService.getUsername(authToken), color);   
+        
     }
     
 

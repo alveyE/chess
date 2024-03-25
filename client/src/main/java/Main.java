@@ -10,7 +10,7 @@ public class Main {
             url = args[0];
         }
         PreLogin preLogin = new PreLogin(url);
-        PostLogin postLogin = new PostLogin(url);
+        PostLogin postLogin = null;
         Scanner scanner = new Scanner(System.in);
         String command = "";
         boolean isLoggedIn = false;
@@ -20,13 +20,15 @@ public class Main {
             if (!isLoggedIn) {
                 String response = preLogin.runCommand(command);
                 System.out.println(response);
-                if (response.startsWith("Successfully logged in")) {
+                if(response.startsWith("AUTH")) {
+                    postLogin = new PostLogin(url, response.substring(4));
                     isLoggedIn = true;
                 }
-            } else if (isLoggedIn ) {
+                
+            } else  {
                 String response = postLogin.runCommand(command);
                 System.out.println(response);
-                if (response.startsWith("Successfully logged out")) {
+                if (response.startsWith("Logged out")) {
                     isLoggedIn = false;
                 }
             } 

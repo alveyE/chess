@@ -8,8 +8,9 @@ public class PostLogin {
     public String token;
     public ServerFacade serverFacade;
 
-    public PostLogin(String url) {
+    public PostLogin(String url, String token) {
         this.url = url;
+        this.token = token;
         serverFacade = new ServerFacade(url);
     }
 
@@ -32,10 +33,14 @@ public class PostLogin {
                 }
                 return serverFacade.listGames(token).toString();
             case "join":
-                if (args.length != 1) {
-                    return "Usage: join <gameId>";
+                if (args.length != 2 && args.length != 1) {
+                    return "Usage: join <gameId> <color>";
                 }
-                JoinGameRequest req = new JoinGameRequest(Integer.parseInt(args[0]), args[1]);
+                String color = "";
+                if (args.length == 2) {
+                    color = args[1];
+                }
+                JoinGameRequest req = new JoinGameRequest(Integer.parseInt(args[0]), color);
                 serverFacade.joinGame(token, req);
                 return "Joined game!";
             case "observe":
