@@ -70,7 +70,7 @@ public class GameService {
             joinedGame = gameDAO.joinGame(gameID, UserService.getUsername(authToken), "SPECTATOR");
         }
      
-        if(color.toLowerCase().equals("white") || color.toLowerCase().equals("black") || color.toLowerCase().equals("spectator")){
+        if(color.toLowerCase().equals("white") || color.toLowerCase().equals("black")){
             GameData game = gameDAO.getGame(gameID);
             if (game != null) {
                 if ((game.whiteUsername() != null && color.toUpperCase().equals("WHITE")) ||
@@ -80,7 +80,7 @@ public class GameService {
             }
             gameDAO.joinGame(gameID, UserService.getUsername(authToken), color);   
             joinedGame = gameDAO.getGame(gameID);
-        }else{
+        }else if(!color.toLowerCase().equals("")){
             throw new ResponseException(403, "{\"message\": \"Error: Invalid Color\"}");
         }
         if(joinedGame.game() == null){
