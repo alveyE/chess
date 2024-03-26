@@ -55,7 +55,7 @@ public class MemoryGameDAO implements GameDAO{
     }
 
     @Override
-    public void joinGame(int gameID, String username, String color) {
+    public GameData joinGame(int gameID, String username, String color) {
         for (GameData game : games) {
             if (game.gameID() == gameID) {
                 if(color.equals("WHITE")){
@@ -74,6 +74,7 @@ public class MemoryGameDAO implements GameDAO{
                 break;
             }
         }
+        return null;
     }
     
 }

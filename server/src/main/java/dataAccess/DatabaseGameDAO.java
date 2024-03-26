@@ -118,7 +118,7 @@ public class DatabaseGameDAO implements GameDAO{
     }
 
     @Override
-    public void joinGame(int gameID, String username, String color){
+    public GameData joinGame(int gameID, String username, String color){
         try {
             if(color.toUpperCase().equals("WHITE") || color.equals("BLACK")){
             var statement = "UPDATE games SET blackUsername = ? WHERE gameID = ?";
@@ -130,12 +130,14 @@ public class DatabaseGameDAO implements GameDAO{
                 preparedStatement.setString(1, username);
                 preparedStatement.setInt(2, gameID);
                 preparedStatement.executeUpdate();
-            } 
+            }
+            return getGame(gameID); 
 
         }
         }catch (Exception e){
             System.out.println(e);
         }
+        return null;
     }
 
     

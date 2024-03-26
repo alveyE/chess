@@ -168,10 +168,11 @@ public class Server {
         try{
             String authToken = req.headers("Authorization");
             JoinGameRequest game = new Gson().fromJson(req.body(), JoinGameRequest.class);
-            gameService.joinGame(game.gameID(), authToken, game.playerColor());
             res.type("application/json");
             res.status(200);
-            return "";
+            GameData joinedGame = gameService.joinGame(game.gameID(), authToken, game.playerColor());
+            return new Gson().toJson(joinedGame);
+
         }catch(ResponseException e){
             res.type("application/json");
             res.status(e.StatusCode());

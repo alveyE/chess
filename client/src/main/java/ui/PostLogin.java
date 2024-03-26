@@ -41,8 +41,10 @@ public class PostLogin {
                     color = args[1];
                 }
                 JoinGameRequest req = new JoinGameRequest(Integer.parseInt(args[0]), color);
-                serverFacade.joinGame(token, req);
-                return "Joined game!";
+                var res = serverFacade.joinGame(token, req);
+                DrawBoard draw = new DrawBoard(res.game().getBoard());
+                return draw.drawWhite() + "\n\n\n" + draw.drawBlack();
+                
             case "observe":
                 if (args.length != 1) {
                     return "Usage: observe <gameId>";
@@ -56,7 +58,7 @@ public class PostLogin {
             case "quit":
                 return "Goodbye!";
             default:
-                return "create <gameName> - to create a game\nlist - to list all games\nquit - to quit";
+                return "create <gameName> - to create a game\nlist - to list all games\njoin <gameID> <color> - to join a game\nquit - to quit";
         }
     }
     

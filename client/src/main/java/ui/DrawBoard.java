@@ -1,6 +1,7 @@
 package ui;
 
 import chess.ChessBoard;
+import chess.ChessPiece;
 import chess.ChessPosition;
 
 public class DrawBoard {
@@ -17,14 +18,14 @@ public class DrawBoard {
             boardString += i + " ";
             for (int j = 1; j <= 8; j++) {
                 if (board.getPiece(new ChessPosition(i, j)) == null) {
-                    boardString += " ";
+                    boardString += " X ";
                 } else {
-                    boardString += board.getPiece(new ChessPosition(i, j)).toString();
+                    boardString += " " + pieceToLetter(board.getPiece(new ChessPosition(i, j))) + " ";
                 }
             }
             boardString += "\n";
         }
-        boardString += "  a b c d e f g h\n";
+        boardString += "   a  b  c  d  e  f  g  h\n";
         return boardString;
     }
 
@@ -34,15 +35,39 @@ public class DrawBoard {
             boardString += i + " ";
             for (int j = 8; j > 0; j--) {
                 if (board.getPiece(new ChessPosition(i, j)) == null) {
-                    boardString += " ";
+                    boardString += " X ";
                 } else {
-                    boardString += board.getPiece(new ChessPosition(i, j)).toString();
+                    boardString += " " + pieceToLetter(board.getPiece(new ChessPosition(i, j))) + " ";
                 }
             }
             boardString += "\n";
         }
-        boardString += "  h g f e d c b a\n";
+        boardString += "   h  g  f  e  d  c  b  a\n";
         return boardString;
+    }
+
+
+    private String pieceToLetter(ChessPiece piece){
+        if (piece == null) {
+            return " ";
+        }
+        switch (piece.getPieceType()) {
+            case PAWN:
+                return "P";
+            case ROOK:
+                return "R";
+            case KNIGHT:
+                return "N";
+            case BISHOP:
+                return "B";
+            case QUEEN:
+                return "Q";
+            case KING:
+                return "K";
+            default:
+                return " ";
+        }
+
     }
     
     

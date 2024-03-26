@@ -7,6 +7,8 @@ import model.GameData;
 
 import java.util.ArrayList;
 
+import chess.ChessGame;
+
 public class GameService {
 
    // private final static MemoryGameDAO gameDAO = new MemoryGameDAO();
@@ -53,7 +55,8 @@ public class GameService {
         return gameDAO.getGames();
     }
 
-    public void joinGame(int gameID, String authToken, String color) throws DataAccessException, ResponseException{
+    public GameData joinGame(int gameID, String authToken, String color) throws DataAccessException, ResponseException{
+        GameData joinedGame = null;
         if(authToken == null){
             throw new ResponseException(400, "{\"message\": \"Error: Bad Request\"}");
         }
@@ -63,9 +66,8 @@ public class GameService {
         if(gameDAO.getGame(gameID) == null){
             throw new ResponseException(400, "{\"message\": \"Error: Game does not exist\"}");
         }
-        if(color == null || color.equals("")){
-            gameDAO.joinGame(gameID, UserService.getUsername(authToken), "SPECTATOR");
-            return;
+        if(color == null || color.equals("")){            
+            joinedGame = gameDAO.joinGame(gameID, UserService.getUsername(authToken), "SPECTATOR");
         }
      
         if(color.toLowerCase().equals("white") || color.toLowerCase().equals("black") || color.toLowerCase().equals("spectator")){
@@ -77,9 +79,14 @@ public class GameService {
                 }
             }
             gameDAO.joinGame(gameID, UserService.getUsername(authToken), color);   
+            joinedGame = gameDAO.getGame(gameID);
         }else{
             throw new ResponseException(403, "{\"message\": \"Error: Invalid Color\"}");
         }
+        if(joinedGame.game() == null){
+            return new GameData(gameID, joinedGame.whiteUsername(), joinedGame.blackUsername(), joinedGame.gameName(), new ChessGame());
+        }
+        return joinedGame;
         
     }
     

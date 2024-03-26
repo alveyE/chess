@@ -10,5 +10,5 @@ public interface GameDAO {
     public void deleteGame(int gameID);
     public GameData getGame(int gameID);
     public ArrayList<GameData> getGames();
-    public void joinGame(int gameID, String username, String color);
+    public GameData joinGame(int gameID, String username, String color);
 }

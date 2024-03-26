@@ -73,9 +73,9 @@ public class ServerFacade {
         return sendRequest("GET", path, null, token, GameListResponse.class);
     }
 
-   public void joinGame(String token, JoinGameRequest req) throws RuntimeException{
+   public GameData joinGame(String token, JoinGameRequest req) throws RuntimeException{
         String path = "/game";
-        sendRequest("PUT", path, req, token, null);
+        return sendRequest("PUT", path, req, token, GameData.class);
     }
 
 
