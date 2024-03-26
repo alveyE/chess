@@ -1,16 +1,20 @@
 package ui;
 
+
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.management.RuntimeErrorException;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import chess.ChessGame;
 import model.AuthData;
@@ -55,9 +59,18 @@ public class ServerFacade {
         return sendRequest("POST", path, game, token, GameData.class);
     }
 
-    public List listGames(String token) throws RuntimeException{
+    public class GameListResponse {
+        public List<GameData> games;
+
+        @Override
+        public String toString() {
+            return new Gson().toJson(games);
+        }
+    }
+
+    public GameListResponse listGames(String token) throws RuntimeException{
         String path = "/game";
-        return sendRequest("GET", path, null, token, List.class);
+        return sendRequest("GET", path, null, token, GameListResponse.class);
     }
 
    public void joinGame(String token, JoinGameRequest req) throws RuntimeException{
@@ -77,9 +90,7 @@ public class ServerFacade {
             writeRequestBody(req, http);
             http.connect();
             throwFailure(http);
-            if(format == null) return null;
-
- 
+            if(format == null) return null;         
 
             return readBody(http, format);
         } catch (Exception ex) {
