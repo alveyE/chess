@@ -1,6 +1,8 @@
 package webSocket;
 
 import org.eclipse.jetty.websocket.api.Session;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
+import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 
 import com.google.gson.Gson;
 
@@ -22,6 +24,7 @@ import webSocketMessages.userCommands.MAKE_MOVE;
 import webSocketMessages.userCommands.RESIGN;
 import webSocketMessages.userCommands.UserGameCommand;
 
+@WebSocket
 public class WebSockets {
 
     private final ConnectionManager connectionManager = new ConnectionManager();
@@ -30,7 +33,7 @@ public class WebSockets {
     private final UserDAO userDAO = new DatabaseUserDAO();
     private final GameDAO gameDAO = new DatabaseGameDAO();
 
-
+    @OnWebSocketMessage
     public void onMessage(Session session, String message) {
         UserGameCommand command = new Gson().fromJson(message, UserGameCommand.class);
         //add switch

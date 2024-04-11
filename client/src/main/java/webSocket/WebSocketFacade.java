@@ -11,12 +11,7 @@ import webSocketMessages.userCommands.LEAVE;
 import webSocketMessages.userCommands.MAKE_MOVE;
 import webSocketMessages.userCommands.RESIGN;
 
-import javax.websocket.ContainerProvider;
-import javax.websocket.Endpoint;
-import javax.websocket.EndpointConfig;
-import javax.websocket.MessageHandler;
-import javax.websocket.Session;
-import javax.websocket.WebSocketContainer;
+import javax.websocket.*;
 
 import com.google.gson.Gson;
 
@@ -35,6 +30,8 @@ public class WebSocketFacade extends Endpoint {
 
         this.session = container.connectToServer(this, uri);
         this.session.addMessageHandler(new MessageHandler.Whole<String>(){
+
+            @OnMessage
             public void onMessage(String message){
                 ServerMessage action = new Gson().fromJson(message, ServerMessage.class);
                 switch(action.getServerMessageType()){
@@ -79,7 +76,7 @@ public class WebSocketFacade extends Endpoint {
         this.session.getBasicRemote().sendText(message);
     }
 
-    @Override
+    @OnOpen
     public void onOpen(Session session, EndpointConfig config){
         System.out.println("Connected to server");
     }
