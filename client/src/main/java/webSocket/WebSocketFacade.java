@@ -32,8 +32,17 @@ public class WebSocketFacade extends Endpoint {
         this.session.addMessageHandler(new MessageHandler.Whole<String>(){
             public void onMessage(String message){
                 ServerMessage action = new Gson().fromJson(message, ServerMessage.class);
-            //    switch(action.getServerMessageType())
-                //TODO: Implement onMessage logic
+                switch(action.getServerMessageType()){
+                    case NOTIFICATION:
+                        notification(message);
+                        break;
+                    case LOAD_GAME:
+                        loadGame(message);
+                        break;
+                    case ERROR:
+                        error(message);
+                        break;
+                }
             
             }
         });
