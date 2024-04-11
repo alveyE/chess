@@ -5,11 +5,11 @@ import java.net.URI;
 import webSocketMessages.serverMessages.LoadGame;
 import webSocketMessages.serverMessages.Notification;
 import webSocketMessages.serverMessages.ServerMessage;
-import webSocketMessages.userCommands.JOIN_OBSERVER;
-import webSocketMessages.userCommands.JOIN_PLAYER;
-import webSocketMessages.userCommands.LEAVE;
-import webSocketMessages.userCommands.MAKE_MOVE;
-import webSocketMessages.userCommands.RESIGN;
+import webSocketMessages.userCommands.ObserverJoin;
+import webSocketMessages.userCommands.JoinPlayer;
+import webSocketMessages.userCommands.Leave;
+import webSocketMessages.userCommands.MakeMove;
+import webSocketMessages.userCommands.Resign;
 
 import javax.websocket.*;
 
@@ -81,23 +81,23 @@ public class WebSocketFacade extends Endpoint {
         System.out.println("Connected to server");
     }
 
-    public void joinPlayer(JOIN_PLAYER join) throws Exception{
+    public void joinPlayer(JoinPlayer join) throws Exception{
         sendMessage(new Gson().toJson(join));
     }
 
-    public void makeMove(MAKE_MOVE move) throws Exception{
+    public void makeMove(MakeMove move) throws Exception{
         sendMessage(new Gson().toJson(move));
     }
 
-    public void observe(JOIN_OBSERVER join) throws Exception{
+    public void observe(ObserverJoin join) throws Exception{
         sendMessage(new Gson().toJson(join));
     }
 
-    public void leaveGame(LEAVE leave) throws Exception{
+    public void leaveGame(Leave leave) throws Exception{
         sendMessage(new Gson().toJson(leave));
     }
 
-    public void resign(RESIGN resign) throws Exception{
+    public void resign(Resign resign) throws Exception{
         sendMessage(new Gson().toJson(resign));
     }
 

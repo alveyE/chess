@@ -17,15 +17,15 @@ import dataAccess.UserDAO;
 import model.AuthData;
 import service.GameService;
 import webSocketMessages.serverMessages.Notification;
+import webSocketMessages.userCommands.RESIGN;
 import webSocketMessages.userCommands.JOIN_OBSERVER;
 import webSocketMessages.userCommands.JOIN_PLAYER;
 import webSocketMessages.userCommands.LEAVE;
 import webSocketMessages.userCommands.MAKE_MOVE;
-import webSocketMessages.userCommands.RESIGN;
 import webSocketMessages.userCommands.UserGameCommand;
 
 @WebSocket
-public class WebSockets {
+public class WebSocketHandler {
 
     private final ConnectionManager connectionManager = new ConnectionManager();
     private final GameService gameService = new GameService();
@@ -36,7 +36,23 @@ public class WebSockets {
     @OnWebSocketMessage
     public void onMessage(Session session, String message) {
         UserGameCommand command = new Gson().fromJson(message, UserGameCommand.class);
-        //add switch
+        switch(command.getCommandType()){
+            case JOIN_PLAYER:
+                joinGame(message, session);
+                break;
+            case JOIN_OBSERVER:
+                joinObserver(message, session);
+                break;
+            case MAKE_MOVE:
+                makeMove(message, session);
+                break;
+            case LEAVE:
+                leave(message, session);
+                break;
+            case RESIGN:
+                resign(message, session);
+                break;
+        }
 
     }
 

@@ -30,7 +30,7 @@ public class ConnectionManager {
 
     public void broadcast(String user, ServerMessage message, int gameID) {
         connections.forEach((key, connection) -> {
-            if(connection.session.isOpen() && connection.gameID == gameID && !key.equals(user)){
+            if(connection.session.isOpen() && connection.gameID == gameID && !connection.user.equals(user)){
                 try {
                     connection.send(message.toString());
                 } catch (Exception e) {
@@ -44,7 +44,7 @@ public class ConnectionManager {
 
     public void respond(String user, int gameID, GameData gameData) {
         connections.forEach((key, connection) -> {
-            if (connection.session.isOpen() && connection.gameID == gameID && key.equals(user)) {
+            if (connection.session.isOpen() && connection.gameID == gameID && !connection.user.equals(user)) {
                 try {
                     connection.send(new Gson().toJson(new LoadGame(gameData.game())));
                 } catch (IOException e) {

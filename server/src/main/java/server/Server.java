@@ -17,18 +17,18 @@ import service.GameService;
 import service.ResponseException;
 import service.UserService;
 import spark.*;
-import webSocket.WebSockets;
+import webSocket.WebSocketHandler;
 
 public class Server {
 
     private final UserService userService;
     private final GameService gameService;
-    private final WebSockets websocket;
+    private final WebSocketHandler websocket;
 
     public Server() {
         this.userService = new UserService();
         this.gameService = new GameService();
-        this.websocket = new WebSockets();
+        this.websocket = new WebSocketHandler();
    
     }
 

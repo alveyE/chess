@@ -5,7 +5,7 @@ import java.util.Scanner;
 import chess.ChessMove;
 import chess.ChessPosition;
 import webSocket.WebSocketFacade;
-import webSocketMessages.userCommands.MAKE_MOVE;
+import webSocketMessages.userCommands.MakeMove;
 
 public class Gameplay {
 
@@ -62,7 +62,7 @@ public class Gameplay {
                 ChessPosition start = new ChessPosition(Integer.parseInt(cmd.split("")[0]), Integer.parseInt(cmd.split("")[1]));
                 ChessPosition end = new ChessPosition(Integer.parseInt(cmd.split("")[2]), Integer.parseInt(cmd.split("")[3]));
                 try{
-                webSocketFacade.makeMove(new MAKE_MOVE(token, gameId, new ChessMove(start, end, null)));
+                webSocketFacade.makeMove(new MakeMove(token, gameId, new ChessMove(start, end, null)));
                 return "Move made successfully";
                 } catch (Exception e){
                     return "Invalid move command. Usage: move <start position> <end position>";
