@@ -5,6 +5,11 @@ import java.net.URI;
 import webSocketMessages.serverMessages.LoadGame;
 import webSocketMessages.serverMessages.Notification;
 import webSocketMessages.serverMessages.ServerMessage;
+import webSocketMessages.userCommands.JOIN_OBSERVER;
+import webSocketMessages.userCommands.JOIN_PLAYER;
+import webSocketMessages.userCommands.LEAVE;
+import webSocketMessages.userCommands.MAKE_MOVE;
+import webSocketMessages.userCommands.RESIGN;
 
 import javax.websocket.ContainerProvider;
 import javax.websocket.Endpoint;
@@ -78,6 +83,30 @@ public class WebSocketFacade extends Endpoint {
     public void onOpen(Session session, EndpointConfig config){
         System.out.println("Connected to server");
     }
+
+    public void joinPlayer(JOIN_PLAYER join) throws Exception{
+        sendMessage(new Gson().toJson(join));
+    }
+
+    public void makeMove(MAKE_MOVE move) throws Exception{
+        sendMessage(new Gson().toJson(move));
+    }
+
+    public void observe(JOIN_OBSERVER join) throws Exception{
+        sendMessage(new Gson().toJson(join));
+    }
+
+    public void leaveGame(LEAVE leave) throws Exception{
+        sendMessage(new Gson().toJson(leave));
+    }
+
+    public void resign(RESIGN resign) throws Exception{
+        sendMessage(new Gson().toJson(resign));
+    }
+
+    
+
+
 
     
 }
