@@ -15,6 +15,8 @@ public class PostLogin {
     }
 
     public String runCommand(String command){
+        Gameplay gameplay = new Gameplay(url, token);
+
         String[] commandParts = command.toLowerCase().split(" ");
         String cmd = commandParts[0];
         String[] args = new String[commandParts.length - 1];
@@ -42,8 +44,7 @@ public class PostLogin {
                 }
                 JoinGameRequest req = new JoinGameRequest(Integer.parseInt(args[0]), color);
                 var res = serverFacade.joinGame(token, req);
-                DrawBoard draw = new DrawBoard(res.game().getBoard());
-                return draw.drawWhite() + "\n\n\n" + draw.drawBlack();
+                return gameplay.playGame();
                 
             case "observe":
                 if (args.length != 1) {
@@ -51,7 +52,7 @@ public class PostLogin {
                 }
                 JoinGameRequest re = new JoinGameRequest(Integer.parseInt(args[0]), "");
                 serverFacade.joinGame(cmd, re);
-                return "Observing game!";
+                return gameplay.playGame();
             case "logout":
                 serverFacade.logout(token);
                 return "Logged out!";            

@@ -1,5 +1,7 @@
 package ui;
 
+import java.util.Scanner;
+
 import chess.ChessMove;
 import chess.ChessPosition;
 import webSocket.WebSocketFacade;
@@ -18,6 +20,19 @@ public class Gameplay {
         this.token = token;
         serverFacade = new ServerFacade(url);
     }
+
+    public String playGame(){
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter command: ");
+        String command = input.nextLine();
+        while(!command.equals("leave")){
+            System.out.println(runCommand(command));
+            System.out.println("Enter command: ");
+            command = input.nextLine();
+        }
+        return "Goodbye!";
+    }
+        
 
     public String runCommand(String command){
         String[] commandParts = command.toLowerCase().split(" ");
