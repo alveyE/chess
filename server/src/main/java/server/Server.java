@@ -17,20 +17,25 @@ import service.GameService;
 import service.ResponseException;
 import service.UserService;
 import spark.*;
+import webSocket.WebSockets;
 
 public class Server {
 
     private final UserService userService;
     private final GameService gameService;
+    private final WebSockets websocket;
 
     public Server() {
         this.userService = new UserService();
         this.gameService = new GameService();
-        
+        this.websocket = new WebSockets();
+   
     }
 
     public int run(int desiredPort) {
         Spark.port(desiredPort);
+
+       Spark.webSocket("/connect", websocket);
 
         Spark.staticFiles.location("web");
 

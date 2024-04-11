@@ -1,17 +1,27 @@
 package ui;
 
+import chess.ChessGame.TeamColor;
 import model.JoinGameRequest;
+import webSocket.WebSocketFacade;
+import webSocketMessages.userCommands.JOIN_OBSERVER;
+import webSocketMessages.userCommands.JOIN_PLAYER;
 
 public class PostLogin {
 
     private final String url;
     public String token;
     public ServerFacade serverFacade;
+    public WebSocketFacade webSocketFacade;
 
     public PostLogin(String url, String token) {
         this.url = url;
         this.token = token;
         serverFacade = new ServerFacade(url);
+        try{
+        this.webSocketFacade = new WebSocketFacade();
+        }catch(Exception e){
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
     public String runCommand(String command){
@@ -43,7 +53,12 @@ public class PostLogin {
                     color = args[1];
                 }
                 JoinGameRequest req = new JoinGameRequest(Integer.parseInt(args[0]), color);
-                var res = serverFacade.joinGame(token, req);
+                //var res = serverFacade.joinGame(token, req);
+                try{
+                webSocketFacade.joinPlayer(new JOIN_PLAYER(token, Integer.parseInt(args[0]), color == "white" ? TeamColor.WHITE : TeamColor.BLACK));
+                }catch(Exception e){
+                    return "Error: " + e.getMessage();
+                }
                 return gameplay.playGame();
                 
             case "observe":
@@ -51,7 +66,12 @@ public class PostLogin {
                     return "Usage: observe <gameId>";
                 }
                 JoinGameRequest re = new JoinGameRequest(Integer.parseInt(args[0]), "");
-                serverFacade.joinGame(cmd, re);
+                //serverFacade.joinGame(cmd, re);
+                try{
+                webSocketFacade.observe(new JOIN_OBSERVER(token, Integer.parseInt(args[0])));
+                }catch(Exception e){
+                    return "Error: " + e.getMessage();
+                }
                 return gameplay.playGame();
             case "logout":
                 serverFacade.logout(token);

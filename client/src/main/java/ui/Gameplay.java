@@ -22,6 +22,10 @@ public class Gameplay {
     }
 
     public String playGame(){
+        //print game board
+        DrawBoard drawBoard = new DrawBoard(webSocketFacade.board);
+        drawBoard.drawWhite();
+        
         Scanner input = new Scanner(System.in);
         System.out.println("Enter command: ");
         String command = input.nextLine();
@@ -46,6 +50,8 @@ public class Gameplay {
             case "help":
                 return "Commands: help, redraw, leave, move, resign, highlight";
             case "redraw":
+                DrawBoard drawBoard = new DrawBoard(webSocketFacade.board);
+                drawBoard.drawWhite();
                 return "Redrawing board";
             case "leave":
                 return "Leaving game";
