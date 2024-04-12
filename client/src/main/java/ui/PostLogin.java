@@ -3,7 +3,7 @@ package ui;
 import chess.ChessGame.TeamColor;
 import model.JoinGameRequest;
 import webSocket.WebSocketFacade;
-import webSocketMessages.userCommands.ObserverJoin;
+import webSocketMessages.userCommands.JoinObserver;
 import webSocketMessages.userCommands.JoinPlayer;
 
 public class PostLogin {
@@ -68,7 +68,7 @@ public class PostLogin {
                 JoinGameRequest re = new JoinGameRequest(Integer.parseInt(args[0]), "");
                 //serverFacade.joinGame(cmd, re);
                 try{
-                webSocketFacade.observe(new ObserverJoin(token, Integer.parseInt(args[0])));
+                webSocketFacade.observe(new JoinObserver(token, Integer.parseInt(args[0])));
                 }catch(Exception e){
                     return "Error: " + e.getMessage();
                 }

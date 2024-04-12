@@ -1,9 +1,9 @@
 package webSocketMessages.userCommands;
 
-public class RESIGN extends UserGameCommand {
+public class Resign extends UserGameCommand {
     public final int gameID;
 
-    public RESIGN(String authToken, int gameID) {
+    public Resign(String authToken, int gameID) {
         super(authToken);
         this.gameID = gameID;
         this.commandType = CommandType.RESIGN;
@@ -19,7 +19,7 @@ public class RESIGN extends UserGameCommand {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
 
-        RESIGN resign = (RESIGN) o;
+        Resign resign = (Resign) o;
         return gameID == resign.gameID;
     }
 

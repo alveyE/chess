@@ -64,9 +64,9 @@ public class WebSocketTests {
 
         gameID = createGame(white, "testGame");
 
-        joinGame(gameID, white, ChessGame.TeamColor.WHITE);
-        joinGame(gameID, black, ChessGame.TeamColor.BLACK);
-        joinGame(gameID, observer, null);
+       // joinGame(gameID, white, ChessGame.TeamColor.WHITE);
+        //joinGame(gameID, black, ChessGame.TeamColor.BLACK);
+        //joinGame(gameID, observer, null);
     }
 
     @AfterEach

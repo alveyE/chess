@@ -17,11 +17,11 @@ import dataAccess.UserDAO;
 import model.AuthData;
 import service.GameService;
 import webSocketMessages.serverMessages.Notification;
-import webSocketMessages.userCommands.RESIGN;
-import webSocketMessages.userCommands.JOIN_OBSERVER;
-import webSocketMessages.userCommands.JOIN_PLAYER;
-import webSocketMessages.userCommands.LEAVE;
-import webSocketMessages.userCommands.MAKE_MOVE;
+import webSocketMessages.userCommands.Resign;
+import webSocketMessages.userCommands.JoinObserver;
+import webSocketMessages.userCommands.JoinPlayer;
+import webSocketMessages.userCommands.Leave;
+import webSocketMessages.userCommands.MakeMove;
 import webSocketMessages.userCommands.UserGameCommand;
 
 @WebSocket
@@ -57,7 +57,7 @@ public class WebSocketHandler {
     }
 
     public void joinGame(String str, Session session){
-        JOIN_PLAYER joinPlayer = new Gson().fromJson(str, JOIN_PLAYER.class);
+        JoinPlayer joinPlayer = new Gson().fromJson(str, JoinPlayer.class);
         int gameId = joinPlayer.getGameID();
         String authToken = joinPlayer.getAuthString();
         TeamColor color = joinPlayer.getPlayerColor();
@@ -79,7 +79,7 @@ public class WebSocketHandler {
     }
 
     public void joinObserver(String str, Session session) {
-        JOIN_OBSERVER joinObserver = new Gson().fromJson(str, JOIN_OBSERVER.class);
+        JoinObserver joinObserver = new Gson().fromJson(str, JoinObserver.class);
         int gameId = joinObserver.getGameID();
         String authToken = joinObserver.getAuthString();
 
@@ -98,7 +98,7 @@ public class WebSocketHandler {
     }
 
     public void makeMove(String str, Session session){
-        MAKE_MOVE makeMove = new Gson().fromJson(str, MAKE_MOVE.class);
+        MakeMove makeMove = new Gson().fromJson(str, MakeMove.class);
         int gameId = makeMove.getGameID();
         String authToken = makeMove.getAuthString();
         ChessMove move = makeMove.move;
@@ -119,7 +119,7 @@ public class WebSocketHandler {
     }
 
     public void leave(String str, Session session){
-        LEAVE leave = new Gson().fromJson(str, LEAVE.class);
+        Leave leave = new Gson().fromJson(str, Leave.class);
         int gameId = leave.getGameID();
         String authToken = leave.getAuthString();
 
@@ -138,7 +138,7 @@ public class WebSocketHandler {
     }
 
     public void resign(String str, Session session){
-        RESIGN resign = new Gson().fromJson(str, RESIGN.class);
+        Resign resign = new Gson().fromJson(str, Resign.class);
         int gameId = resign.getGameID();
         String authToken = resign.getAuthString();
 

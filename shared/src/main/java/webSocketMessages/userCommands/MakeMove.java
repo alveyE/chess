@@ -4,11 +4,11 @@ import chess.ChessMove;
 
 import java.util.Objects;
 
-public class MAKE_MOVE extends UserGameCommand {
+public class MakeMove extends UserGameCommand {
     public final int gameID;
     public final ChessMove move;
 
-    public MAKE_MOVE(String authToken, int gameID, ChessMove move) {
+    public MakeMove(String authToken, int gameID, ChessMove move) {
         super(authToken);
         this.gameID = gameID;
         this.move = move;
@@ -29,7 +29,7 @@ public class MAKE_MOVE extends UserGameCommand {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
 
-        MAKE_MOVE makeMove = (MAKE_MOVE) o;
+        MakeMove makeMove = (MakeMove) o;
         return gameID == makeMove.gameID && Objects.equals(move, makeMove.move);
     }
 

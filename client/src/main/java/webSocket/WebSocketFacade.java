@@ -5,7 +5,7 @@ import java.net.URI;
 import webSocketMessages.serverMessages.LoadGame;
 import webSocketMessages.serverMessages.Notification;
 import webSocketMessages.serverMessages.ServerMessage;
-import webSocketMessages.userCommands.ObserverJoin;
+import webSocketMessages.userCommands.JoinObserver;
 import webSocketMessages.userCommands.JoinPlayer;
 import webSocketMessages.userCommands.Leave;
 import webSocketMessages.userCommands.MakeMove;
@@ -89,7 +89,7 @@ public class WebSocketFacade extends Endpoint {
         sendMessage(new Gson().toJson(move));
     }
 
-    public void observe(ObserverJoin join) throws Exception{
+    public void observe(JoinObserver join) throws Exception{
         sendMessage(new Gson().toJson(join));
     }
 
