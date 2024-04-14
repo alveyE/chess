@@ -136,12 +136,13 @@ public class WebSocketHandler {
         int gameId = makeMove.getGameID();
         String authToken = makeMove.getAuthString();
         ChessMove move = makeMove.move;
-        TeamColor playerColor = gameDAO.getGame(gameId).blackUsername() == authDAO.getAuth(authToken).username() ? TeamColor.BLACK : TeamColor.WHITE;
 
         try{
             AuthData authData = authDAO.getAuth(authToken);
             if(authData != null){
                 if(gameDAO.getGame(gameId) != null){
+                    TeamColor playerColor = gameDAO.getGame(gameId).blackUsername().equals(authDAO.getAuth(authToken).username()) ? TeamColor.BLACK : TeamColor.WHITE;
+
                     //check if moving for opponent
                     ChessPiece piece = gameDAO.getGame(gameId).game().getBoard().getPiece(move.getStartPosition());
                     if(piece == null){

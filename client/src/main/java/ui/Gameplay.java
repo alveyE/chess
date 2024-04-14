@@ -63,7 +63,10 @@ public class Gameplay {
                 ChessPosition end = new ChessPosition(Integer.parseInt(cmd.split("")[2]), Integer.parseInt(cmd.split("")[3]));
                 try{
                 webSocketFacade.makeMove(new MakeMove(token, gameId, new ChessMove(start, end, null)));
-                return "Move made successfully";
+                //draw board
+                DrawBoard drawBoard2 = new DrawBoard(webSocketFacade.board);
+                drawBoard2.drawWhite();
+                
                 } catch (Exception e){
                     return "Invalid move command. Usage: move <start position> <end position>";
                 }
