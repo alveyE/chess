@@ -14,6 +14,7 @@ public class ChessGame {
 
     private TeamColor teamTurn;
     private ChessBoard board;
+    private boolean resign = false;
 
     public ChessGame() {
         teamTurn = TeamColor.WHITE;
@@ -37,12 +38,21 @@ public class ChessGame {
         teamTurn = team;
     }
 
+    public void setResign(boolean resign) {
+        this.resign = resign;
+    }
+
     /**
      * Enum identifying the 2 possible teams in a chess game
      */
     public enum TeamColor {
         WHITE,
         BLACK
+    }
+
+
+    public boolean gameIsOver() {
+        return isInCheckmate(TeamColor.WHITE) || isInCheckmate(TeamColor.BLACK) || isInStalemate(TeamColor.WHITE) || isInStalemate(TeamColor.BLACK) || resign;
     }
 
     /**

@@ -47,7 +47,7 @@ public class DatabaseGameDAO implements GameDAO{
                 preparedStatement.setString(1, null);
                 preparedStatement.setString(2, null);
                 preparedStatement.setString(3, gameName);
-                preparedStatement.setString(4, null);
+                preparedStatement.setString(4, new Gson().toJson(new ChessGame()));
                 preparedStatement.executeUpdate();
                 try (var results = preparedStatement.getGeneratedKeys()) {
                     if (results.next()) {
@@ -141,6 +141,20 @@ public class DatabaseGameDAO implements GameDAO{
             System.out.println(e);
         }
         return null;
+    }
+
+   public void setGameData(int gameID, ChessGame game){
+        try {
+            var statement = "UPDATE games SET gameData = ? WHERE gameID = ?";
+            var conn = DatabaseManager.getConnection();
+            try (var preparedStatement = conn.prepareStatement(statement)) {
+                preparedStatement.setString(1, new Gson().toJson(game));
+                preparedStatement.setInt(2, gameID);
+                preparedStatement.executeUpdate();
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
     }
 
     

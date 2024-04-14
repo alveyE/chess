@@ -3,6 +3,7 @@ package webSocket;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
+
 import org.eclipse.jetty.websocket.api.Session;
 
 import com.google.gson.Gson;
@@ -10,6 +11,8 @@ import com.google.gson.Gson;
 import chess.ChessGame;
 import model.GameData;
 import webSocketMessages.serverMessages.LoadGame;
+
+import webSocketMessages.serverMessages.Notification;
 import webSocketMessages.serverMessages.ServerMessage;
 import webSocketMessages.serverMessages.Error;
 
@@ -32,7 +35,7 @@ public class ConnectionManager {
         connections.forEach((key, connection) -> {
             if(connection.session.isOpen() && connection.gameID == gameID && !connection.user.equals(user)){
                 try {
-                    connection.send(message.toString());
+                    connection.send(new Gson().toJson(message));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -44,7 +47,7 @@ public class ConnectionManager {
 
     public void respond(String user, int gameID, GameData gameData) {
         connections.forEach((key, connection) -> {
-            if (connection.session.isOpen() && connection.gameID == gameID && !connection.user.equals(user)) {
+            if (connection.session.isOpen() && connection.gameID == gameID && connection.user.equals(user)) {
                 try {
                     connection.send(new Gson().toJson(new LoadGame(gameData.game())));
                 } catch (IOException e) {
@@ -73,6 +76,18 @@ public class ConnectionManager {
             }
         });
 
+    }
+
+    public void resign(String user, int gameID, ServerMessage message) {
+        connections.forEach((key, connection) -> {
+            if (connection.session.isOpen() && connection.gameID == gameID) {
+                try {
+                    connection.send(new Gson().toJson(message));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 

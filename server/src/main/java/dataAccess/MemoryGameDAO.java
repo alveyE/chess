@@ -3,6 +3,7 @@ package dataAccess;
 
 import java.util.ArrayList;
 
+import chess.ChessGame;
 import model.GameData;
 import model.UserData;
 public class MemoryGameDAO implements GameDAO{
@@ -77,6 +78,20 @@ public class MemoryGameDAO implements GameDAO{
             }
         }
         return null;
+    }
+
+    public void setGameData(int gameID, ChessGame game) {
+        for (GameData g : games) {
+            if (g.gameID() == gameID) {
+                int index = games.indexOf(g);
+                if (index != -1) {
+                    games.remove(index);
+                    GameData updatedGame = new GameData(g.gameID(), g.whiteUsername(), g.blackUsername(), g.gameName(), game);
+                    games.add(index, updatedGame);
+                }
+                break;
+            }
+        }
     }
     
 }

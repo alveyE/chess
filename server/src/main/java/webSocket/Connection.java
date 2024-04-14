@@ -19,7 +19,4 @@ public class Connection {
         session.getRemote().sendString(message);
     }
 
-    public void setGameID(int gameID) {
-        this.gameID = gameID;
-    }
 }

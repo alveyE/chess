@@ -5,11 +5,14 @@ import java.net.URI;
 import webSocketMessages.serverMessages.LoadGame;
 import webSocketMessages.serverMessages.Notification;
 import webSocketMessages.serverMessages.ServerMessage;
+import webSocketMessages.serverMessages.Error;
+
 import webSocketMessages.userCommands.JoinObserver;
 import webSocketMessages.userCommands.JoinPlayer;
 import webSocketMessages.userCommands.Leave;
 import webSocketMessages.userCommands.MakeMove;
 import webSocketMessages.userCommands.Resign;
+
 
 import javax.websocket.*;
 
@@ -43,6 +46,7 @@ public class WebSocketFacade extends Endpoint {
                         break;
                     case ERROR:
                         error(message);
+                    
                         break;
                 }
             
@@ -53,7 +57,6 @@ public class WebSocketFacade extends Endpoint {
     }
 
     private void notification(String message){
-        System.out.println("Notification");
         Notification notification = new Gson().fromJson(message, Notification.class);
         System.out.println(notification.getMessage());
     }
@@ -68,8 +71,8 @@ public class WebSocketFacade extends Endpoint {
 
     private void error(String message){
         System.out.println("Error");
-        Notification error = new Gson().fromJson(message, Notification.class);
-        System.out.println(error.getMessage());
+        Error error = new Gson().fromJson(message, Error.class);
+        System.out.println(error.errorMessage);
     }
 
     public void sendMessage(String message) throws Exception{
